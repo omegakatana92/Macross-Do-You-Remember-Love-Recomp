@@ -1,0 +1,67 @@
+{
+  "format_version": 1,
+  "game": {
+    "name": "Macross: Do You Remember Love?",
+    "id": "SLPS-02005",
+    "boot_exe": "SLPS_020.05",
+    "disc2_serial": "SLPS-02006",
+    "disc2_boot_exe": "SLPS_020.06"
+  },
+  "marketing": {
+    "description": "Chou Jikuu Yousai Macross: Ai Oboete Imasu ka (Macross: Do You Remember Love?) - 2D shooting game based on the 1984 anime film.",
+    "publisher": "Bandai Visual",
+    "year": "1999",
+    "region": "Japan",
+    "players": 1
+  },
+  "rom_identity": {
+    "cue_name": "Chou Jikuu Yousai Macross - Ai Oboete Imasu ka (Japan) (Disc 1).cue",
+    "bin_name": "Chou Jikuu Yousai Macross - Ai Oboete Imasu ka (Japan) (Disc 1).bin",
+    "track_counts": [1],
+    "require_cue": true,
+    "data_track": {
+      "size": 506223312,
+      "md5": "947be0017f074af0dc047e5d9492678b",
+      "sha1": "24fc48207da8928daa5ee47d803ab99bbc1cd539",
+      "crc32": "b192eecb"
+    },
+    "disc_fp": "95c48a2dc1b334f9ef3babdb2acc59669f9f2e1e86b444db4d903980ef8519b7"
+  },
+  "disc2_rom_identity": {
+    "cue_name": "Chou Jikuu Yousai Macross - Ai Oboete Imasu ka (Japan) (Disc 2).cue",
+    "bin_name": "Chou Jikuu Yousai Macross - Ai Oboete Imasu ka (Japan) (Disc 2).bin",
+    "track_counts": [1],
+    "require_cue": true,
+    "data_track": {
+      "size": 567194208,
+      "md5": "dc6f48f48fcf13e59d4e780a8b2c877a",
+      "sha1": "96e0f7a3387621f044b53722e341b7b566529743",
+      "crc32": "7471d971"
+    },
+    "disc_fp": "9d1520224b05623d5dc1b0e749c2f11d3d208258655cefd4f39ae54c289d6dc8"
+  },
+  "exe": {
+    "load_address": "0x00010000",
+    "entry_pc": "0x000703A0",
+    "text_size": "0x000A8000",
+    "stack_base": "0x801FFFF0"
+  },
+  "disc2_exe": {
+    "load_address": "0x00010000",
+    "entry_pc": "0x0007682C",
+    "text_size": "0x00082000",
+    "stack_base": "0x801FFFF0"
+  },
+  "seeds": {"count": 498, "source": "boot_exe_jal"},
+  "disc2_seeds": {"count": 530, "source": "boot_exe_jal"},
+  "warnings": [
+    "cue has only 1 TRACK — Track-01-only dumps fail multi-track netplay/catalog gates; prefer a full Redump cue.",
+    "N-programs multi-disc set: Disc 1 and Disc 2 boot different executables. Current framework (0690e5c164) cannot build this as a single project."
+  ],
+  "notes": [
+    "entry_pc/load_address/text_size/stack_base taken from PS-X EXE header.",
+    "seeds are first-pass boot-EXE JAL targets (+ entry); expect to grow as overlays / runtime paths are discovered.",
+    "required_disc_fp is psxrecomp-toc-v1 (matches runtime DiscIdentity).",
+    "Disc 2 has different entry_pc, text_size, and boot_exe_sha256 -- this is an N-programs set per docs/MULTI_DISC.md."
+  ]
+}

@@ -1,0 +1,71 @@
+# Autofilled by tools/new_project_layout/probe_disc.py from your legal dump.
+# Review before shipping. Runtime quirks / overlay seeds still need hand work.
+#
+# NOTE: This is a TWO-DISC TITLE (N-programs set).
+# Disc 1: SLPS-02005, boot=SLPS_020.05, entry=0x000703A0
+# Disc 2: SLPS-02006, boot=SLPS_020.06, entry=0x0007682C
+# The current PSXRecomp framework (as of 0690e5c164) does NOT support N-programs
+# multi-disc sets (each disc boots a different executable). verify_disc_set.py
+# refuses this set. Only Disc 1 is buildable today. Disc 2 configuration is
+# documented below for future framework support (see docs/MULTI_DISC.md P1+P2).
+
+[game]
+name = "Macross: Do You Remember Love?"
+players = 1
+exe = "disc/SLPS_020.05"
+disc = "disc/Chou Jikuu Yousai Macross - Ai Oboete Imasu ka (Japan) (Disc 1).cue"
+discs = [
+    "disc/Chou Jikuu Yousai Macross - Ai Oboete Imasu ka (Japan) (Disc 1).cue",
+    "disc/Chou Jikuu Yousai Macross - Ai Oboete Imasu ka (Japan) (Disc 2).cue",
+]
+disc_serials = [
+    "SLPS-02005",
+    "SLPS-02006",
+]
+load_address = "0x00010000"
+entry_pc = "0x000703A0"
+text_size = "0x000A8000"
+stack_base = "0x801FFFF0"
+
+[prepare_disc]
+out_dir = "disc"
+bin_name = "Chou Jikuu Yousai Macross - Ai Oboete Imasu ka (Japan) (Disc 1).bin"
+cue_name = "Chou Jikuu Yousai Macross - Ai Oboete Imasu ka (Japan) (Disc 1).cue"
+boot_exe = "SLPS_020.05"
+known_sizes = [506223312]
+known_md5 = ["947be0017f074af0dc047e5d9492678b"]
+known_sha1 = ["24fc48207da8928daa5ee47d803ab99bbc1cd539"]
+known_crc32 = ["b192eecb"]
+
+# Disc 2 digests (documented for future multi-disc support):
+# [prepare_disc.disc2]
+# out_dir = "disc"
+# bin_name = "Chou Jikuu Yousai Macross - Ai Oboete Imasu ka (Japan) (Disc 2).bin"
+# cue_name = "Chou Jikuu Yousai Macross - Ai Oboete Imasu ka (Japan) (Disc 2).cue"
+# boot_exe = "SLPS_020.06"
+# known_sizes = [567194208]
+# known_md5 = ["dc6f48f48fcf13e59d4e780a8b2c877a"]
+# known_sha1 = ["96e0f7a3387621f044b53722e341b7b566529743"]
+# known_crc32 = ["7471d971"]
+
+[recompiler]
+seeds = "seeds/ghidra_funcs.txt"
+out_dir = "generated"
+strict = true
+
+[runtime]
+window_title = "Macross: Do You Remember Love? Recompiled"
+memcard_dir = "saves"
+overlay_cache = true
+
+[video]
+renderer = "opengl"
+aspect_ratio = "4:3"
+
+[controller]
+default_mode = "digital"
+
+[netplay]
+require_cue = true
+required_tracks = 1
+required_disc_fp = "95c48a2dc1b334f9ef3babdb2acc59669f9f2e1e86b444db4d903980ef8519b7"

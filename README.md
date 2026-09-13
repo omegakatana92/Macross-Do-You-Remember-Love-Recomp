@@ -1,98 +1,154 @@
-# MacrossDoYouRememberLove Recompiled
+# Macross: Do You Remember Love? — PSX Recomp
 
-<!-- retcomm-readme-metrics -->
-[![GitHub downloads (all assets, all releases)](https://img.shields.io/github/downloads/RetroPortingToolKit/macrossdoyourememberlove/total)](https://github.com/RetroPortingToolKit/macrossdoyourememberlove/releases)
-[![GitHub downloads (latest release)](https://img.shields.io/github/downloads/RetroPortingToolKit/macrossdoyourememberlove/latest/total)](https://github.com/RetroPortingToolKit/macrossdoyourememberlove/releases/latest)
-[![GitHub release](https://img.shields.io/github/v/release/RetroPortingToolKit/macrossdoyourememberlove)](https://github.com/RetroPortingToolKit/macrossdoyourememberlove/releases/latest)
-<!-- /retcomm-readme-metrics -->
+A work-in-progress native recompilation project for the Japanese PlayStation release of **Chou Jikuu Yousai Macross: Ai Oboete Imasu ka**, commonly known as **Macross: Do You Remember Love?**
 
-Static recompilation of **MacrossDoYouRememberLove** built on
-[psxrecomp](https://github.com/mstan/psxrecomp) and
-[recomp-ui](https://github.com/RetroPortingToolKit/recomp-ui).
+This project uses **PSXRecomp** to recompile the original PlayStation executable code for modern systems and uses the current **recomp-ui** launcher.
 
-Chou Jikuu Yousai Macross: Ai Oboete Imasu ka (Macross: Do You Remember Love?) - 2D shooting game based on the 1984 anime film.
+> **This repository does not contain the game.**
+>
+> You must provide your own legally obtained copy of **Macross: Do You Remember Love?** to use this project.
 
-| | |
-|---|---|
-| Players | 1 |
-| Region | Japan |
-| Publisher | Bandai Visual |
-| Year | 1999 |
+## Project Status
 
-Scaffolded with the New Project Layout. See
-`psxrecomp/docs/GAME_PROJECT_SETUP.md` for the full flow.
+**Status: Work in Progress**
 
-<!-- retcomm-readme-launcher -->
-## Retro Launcher
+This is a **two-disc PlayStation game**. The two discs boot different PlayStation executables:
 
-You can run this title **standalone** (release zip + the built-in recomp-ui
-Generate & Build flow), or manage installs, updates, ROM/BIOS wiring, and queued
-builds more intuitively with
-**[Retro Launcher](https://github.com/RetroPortingToolKit/Retro-Launcher)** —
-the Retro Compilation Manager hub for self-compiling recomps.
+| Disc | Boot Executable |
+| --- | --- |
+| Disc 1 | `SLPS_020.05` |
+| Disc 2 | `SLPS_020.06` |
 
-[Downloads](https://github.com/RetroPortingToolKit/Retro-Launcher/releases) ·
-[Full README & features](https://github.com/RetroPortingToolKit/Retro-Launcher#readme)
+Because of this, Macross is more complicated than a multi-disc game where both discs share the same executable. The repository contains discovery information and function seeds for both discs, but complete two-program runtime support still requires additional development and testing.
 
-<p align="center">
-  <img src="https://raw.githubusercontent.com/RetroPortingToolKit/Retro-Launcher/main/docs/screenshots/hub-and-game-launcher.png" alt="Retro hub with a background build, next to a title’s recomp-ui launcher" width="720">
-</p>
+Do not consider the recomp complete or fully playable yet.
 
-<p align="center">
-  <img src="https://raw.githubusercontent.com/RetroPortingToolKit/Retro-Launcher/main/docs/screenshots/queue-and-background-build.png" alt="Background cmake build with titles queued" width="720">
-</p>
+## Framework and New UI
 
-Retro checks for updates, rebuilds with existing build data when possible,
-shares the portable toolchain used by per-title launchers, and automates
-BIOS/ROM/save plumbing so you are not stuck repeating each game’s wizard by hand.
-<!-- /retcomm-readme-launcher -->
+The project pins **PSXRecomp** and **recomp-ui** as Git submodules:
 
-## Legal
+```text
+psxrecomp/
+recomp-ui/
+```
 
-You must own the original game. Disc images under `disc/` are gitignored and
-must never be committed. Retail BIOS dumps are not redistributed; OpenBIOS is
-used for Generate unless you supply your own SCPH locally.
-
-Default app icon: `assets/psxrecomp.ico` (and `.png` / `.svg`) — Retro-themed controller mark from `psxrecomp/assets/`. Windows builds embed it via `APP_ICON`.
-
-Optional box art under `launcher_assets/img/` may come from
-[libretro-thumbnails](https://github.com/libretro-thumbnails/libretro-thumbnails)
-(`Named_Boxarts`); see `BOXART_SOURCE.txt` when present.
-
-## Quick start (dev)
+After cloning, initialize them with:
 
 ```bash
 git submodule update --init --recursive
-./psxrecomp/tools/ci/build_emitters.sh
-python3 psxrecomp/psxrecomp_cli.py generate \
-  --config game.toml --project-root . --disc disc/<your>.cue
-cmake -S . -B build-release -G Ninja -DCMAKE_BUILD_TYPE=Release
-cmake --build build-release --target psx-runtime
 ```
 
-Zip prefix for CI artifacts: `macrossdoyourememberlove`.
+The new recomp-ui is intended to provide first-run setup, disc verification and selection, controller/settings access, Generate & Build functionality, and launching the recomp.
 
-## Symbols
+## Two-Disc Support
 
-Progressive map: `symbols.toml` → `python3 tools/sync_symbols.py` →
-`psx_symbols.h` (`PSX_FN_*`). See `psxrecomp/docs/SYMBOLS.md`.
+Users will eventually need to provide both discs from their own legally obtained copy. The repository contains only technical metadata needed for identification and recompilation, such as disc fingerprints, hashes, serial information, executable identity, track information, symbols, and function-discovery seeds.
 
-## Framework pins
+Disc 1 currently uses `SLPS_020.05`. Disc 2 uses `SLPS_020.06`, with its additional function discovery data stored in:
 
-Submodule gitlinks (`psxrecomp`, optional `recomp-ui`, nested `recomp-net`)
-are authoritative. `framework_pins.txt` is an optional scaffold snapshot;
-release CI logs SHAs with `record_pins.sh` but builds whatever the gitlinks
-resolve to. Bump submodules deliberately — do not float on `main`/`master`
-in release CI.
+```text
+seeds/ghidra_funcs_disc2.txt
+```
 
-<!-- retcomm-readme-raid -->
----
+Successful recompilation of Disc 1 does **not** automatically mean Disc 2 is supported. The real Disc 1 → Disc 2 transition must also be tested before the project can be considered multi-disc functional.
 
-<p align="center">
-  <sub><b>R.A.I.D. — Retro AI Development</b> · a Discord for AI-assisted retro reverse-engineering, decomp &amp; recomp</sub>
-</p>
+## Building
 
-<p align="center">
-  <a href="https://discord.gg/Ad9BwSzctP"><img src=".github/raid-discord.png" alt="Join the Retro AI Development (R.A.I.D.) Discord" width="200"></a>
-</p>
-<!-- /retcomm-readme-raid -->
+Requirements may include Git, Python, CMake, Ninja, a supported C/C++ compiler, and the PSXRecomp dependencies.
+
+Clone the repository recursively, or initialize its submodules after cloning:
+
+```bash
+git submodule update --init --recursive
+```
+
+A typical development build uses CMake and Ninja:
+
+```bash
+cmake -S . -B build -G Ninja
+cmake --build build
+```
+
+The exact workflow may change as PSXRecomp continues to evolve.
+
+## Providing the Game
+
+You must provide your own legally obtained Japanese PlayStation copy of **Chou Jikuu Yousai Macross: Ai Oboete Imasu ka**. Both discs are required for complete multi-disc testing.
+
+This repository intentionally does **not** provide or redistribute:
+
+- `.bin`, `.cue`, `.iso`, `.chd`, or ROM images
+- PlayStation BIOS dumps
+- extracted PlayStation game executables
+- FMV, music, sound, textures, models, or other copyrighted game assets
+- prebuilt `.exe` or `.dll` game binaries
+- build directories or generated binary output
+
+No game download is provided. Users must supply their own copy.
+
+## Repository Policy
+
+Do not submit copyrighted game material to this repository. Disc images, ROMs, BIOS files, extracted game assets, executables, DLLs, and build output must not be committed. The project's `.gitignore` contains additional protections against accidentally adding these files.
+
+## Included Development Files
+
+The public repository contains recompilation source/configuration material such as:
+
+```text
+CMakeLists.txt
+game.toml
+game_options.toml
+catalog_identity.json
+disc_probe.json
+symbols.toml
+psx_symbols.h
+codegen_setup.c
+codegen_setup.h
+seeds/
+tools/
+psxrecomp/
+recomp-ui/
+```
+
+`psxrecomp/` and `recomp-ui/` are Git submodules, not copied framework source trees.
+
+## Function Discovery
+
+Initial function discovery information is stored in:
+
+```text
+seeds/ghidra_funcs.txt
+seeds/ghidra_funcs_disc2.txt
+```
+
+These lists may grow as runtime testing discovers indirect calls, dynamic dispatch targets, overlays, or other executable code.
+
+## Current Development Goals
+
+Current work focuses on getting Disc 1 reliably generated and compiled, reaching gameplay, testing audio/video/input, identifying missing function dispatches and dynamically loaded code, recompiling Disc 2's `SLPS_020.06`, integrating both executable programs, validating the new recomp-ui multi-disc workflow, testing memory-card progression, and reproducing the original Disc 1 → Disc 2 transition.
+
+## Project Completion Definitions
+
+**Buildable** means the recompilation project successfully generates and compiles. **Bootable** means the recompiled game reaches startup/title. **Playable** means actual gameplay can be reached with functioning input. **Multi-disc functional** means both discs are recognized and the game's real Disc 1/Disc 2 progression works. **Complete** means both discs have undergone substantial testing without known game-breaking recompilation problems.
+
+## Credits
+
+### mstan — PSXRecomp
+
+Special thanks and full credit to **mstan** for creating and developing **PSXRecomp**, the PlayStation static recompilation tool and framework that makes this project possible.
+
+**Macross: Do You Remember Love? Recomp would not exist without mstan's work on PSXRecomp.** His work on PlayStation recompilation, code generation, runtime support, and the surrounding tooling provides the technical foundation for this project.
+
+PSXRecomp: https://github.com/mstan/psxrecomp
+
+Additional thanks to everyone who has contributed to PSXRecomp, **RetroPortingToolKit**, and **recomp-ui** as these projects continue to develop.
+
+recomp-ui: https://github.com/RetroPortingToolKit/recomp-ui
+
+## Disclaimer
+
+This is an unofficial fan preservation and technical research project. It is not affiliated with, sponsored by, or endorsed by the owners or publishers of Macross, Sony Interactive Entertainment, mstan, RetroPortingToolKit, or other rights holders and projects mentioned here.
+
+**No copyrighted game files are distributed with this project.**
+
+Users are responsible for providing their own legally obtained copy of **Chou Jikuu Yousai Macross: Ai Oboete Imasu ka (Japan)**, including both discs, in order to use the recompilation project.

@@ -1,0 +1,86 @@
+# Build output
+build/
+Build/
+out/
+cmake-build-*/
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+compile_commands.json
+*.ninja
+.ninja_*
+
+# Executables / libraries / compiled artifacts
+*.exe
+*.dll
+*.so
+*.dylib
+*.a
+*.lib
+*.obj
+*.o
+*.pdb
+
+# PlayStation game/disc images and ROMs
+*.bin
+*.cue
+*.iso
+*.img
+*.mdf
+*.mds
+*.chd
+*.pbp
+*.rom
+*.zip
+*.7z
+*.rar
+
+# BIOS / firmware
+SCPH*.BIN
+scph*.bin
+bios/
+BIOS/
+
+# Extracted or staged copyrighted game content
+game/
+disc/
+discs/
+iso/
+isos/
+rom/
+roms/
+assets/game/
+extracted/
+staging/
+
+# Generated recompilation output
+generated/
+gen/
+
+# Local user/config paths
+settings.toml
+user_settings.toml
+*.local.toml
+.env
+.env.*
+
+# IDE / OS
+.vs/
+.vscode/
+.idea/
+*.user
+*.suo
+.DS_Store
+Thumbs.db
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Logs and temp files
+*.log
+*.tmp
+*.bak
+*.swp

@@ -1,0 +1,31 @@
+{
+  "cue_path": "disc/Chou Jikuu Yousai Macross - Ai Oboete Imasu ka (Japan) (Disc 1).cue",
+  "cue_name": "Chou Jikuu Yousai Macross - Ai Oboete Imasu ka (Japan) (Disc 1).cue",
+  "bin_name": "Chou Jikuu Yousai Macross - Ai Oboete Imasu ka (Japan) (Disc 1).bin",
+  "track_count": 1,
+  "data_track_size": 506223312,
+  "data_track_md5": "947be0017f074af0dc047e5d9492678b",
+  "data_track_sha1": "24fc48207da8928daa5ee47d803ab99bbc1cd539",
+  "data_track_crc32": "b192eecb",
+  "boot_exe": "SLPS_020.05",
+  "serial": "SLPS-02005",
+  "serial_exe": "SLPS_020.05",
+  "volume_id": "",
+  "display_name": "Macross: Do You Remember Love?",
+  "load_address": "0x00010000",
+  "entry_pc": "0x000703A0",
+  "text_size": "0x000A8000",
+  "stack_base": "0x801FFFF0",
+  "require_cue": true,
+  "required_disc_fp": "95c48a2dc1b334f9ef3babdb2acc59669f9f2e1e86b444db4d903980ef8519b7",
+  "boot_exe_sha256": "5c419dcca1dcb0559338ae6d77416fa59f2e41e4dcded69d422791051db90143",
+  "seed_count": 498,
+  "warnings": [
+    "cue has only 1 TRACK — Track-01-only dumps fail multi-track netplay/catalog gates; prefer a full Redump cue."
+  ],
+  "notes": [
+    "entry_pc/load_address/text_size/stack_base taken from PS-X EXE header.",
+    "seeds are first-pass boot-EXE JAL targets (+ entry); expect to grow as overlays / runtime paths are discovered.",
+    "required_disc_fp is psxrecomp-toc-v1 (matches runtime DiscIdentity)."
+  ]
+}

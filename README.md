@@ -1,66 +1,98 @@
-# Macross: Do You Remember Love? Recomp
+# MacrossDoYouRememberLove Recompiled
 
-A work-in-progress PlayStation recompilation project for **Chou Jikuu Yousai Macross: Ai Oboete Imasu ka (Japan)** using the RetroPortingToolKit PSXRecomp framework and the current recomp-ui launcher.
+<!-- retcomm-readme-metrics -->
+[![GitHub downloads (all assets, all releases)](https://img.shields.io/github/downloads/RetroPortingToolKit/macrossdoyourememberlove/total)](https://github.com/RetroPortingToolKit/macrossdoyourememberlove/releases)
+[![GitHub downloads (latest release)](https://img.shields.io/github/downloads/RetroPortingToolKit/macrossdoyourememberlove/latest/total)](https://github.com/RetroPortingToolKit/macrossdoyourememberlove/releases/latest)
+[![GitHub release](https://img.shields.io/github/v/release/RetroPortingToolKit/macrossdoyourememberlove)](https://github.com/RetroPortingToolKit/macrossdoyourememberlove/releases/latest)
+<!-- /retcomm-readme-metrics -->
 
-## Important
+Static recompilation of **MacrossDoYouRememberLove** built on
+[psxrecomp](https://github.com/mstan/psxrecomp) and
+[recomp-ui](https://github.com/RetroPortingToolKit/recomp-ui).
 
-This repository does **not** contain the game.
+Chou Jikuu Yousai Macross: Ai Oboete Imasu ka (Macross: Do You Remember Love?) - 2D shooting game based on the 1984 anime film.
 
-You must provide your own legally obtained copy of both PlayStation discs in order to generate, build, and play the recomp.
+| | |
+|---|---|
+| Players | 1 |
+| Region | Japan |
+| Publisher | Bandai Visual |
+| Year | 1999 |
 
-The project intentionally does not distribute:
+Scaffolded with the New Project Layout. See
+`psxrecomp/docs/GAME_PROJECT_SETUP.md` for the full flow.
 
-- `.bin` files
-- `.cue` files
-- `.iso` / `.chd` disc images
-- ROM files
-- PlayStation BIOS files
-- copyrighted game assets
-- extracted game data
-- prebuilt game executables
-- `build/` output
+<!-- retcomm-readme-launcher -->
+## Retro Launcher
 
-## Multi-disc game
+You can run this title **standalone** (release zip + the built-in recomp-ui
+Generate & Build flow), or manage installs, updates, ROM/BIOS wiring, and queued
+builds more intuitively with
+**[Retro Launcher](https://github.com/RetroPortingToolKit/Retro-Launcher)** —
+the Retro Compilation Manager hub for self-compiling recomps.
 
-Macross: Do You Remember Love? is a **two-disc PlayStation title**. Both discs belong to one recomp project.
+[Downloads](https://github.com/RetroPortingToolKit/Retro-Launcher/releases) ·
+[Full README & features](https://github.com/RetroPortingToolKit/Retro-Launcher#readme)
 
-The project is intended to use PSXRecomp's current multi-disc support together with the modern `recomp-ui` setup/launcher flow.
+<p align="center">
+  <img src="https://raw.githubusercontent.com/RetroPortingToolKit/Retro-Launcher/main/docs/screenshots/hub-and-game-launcher.png" alt="Retro hub with a background build, next to a title’s recomp-ui launcher" width="720">
+</p>
 
-Users will need their own copies of:
+<p align="center">
+  <img src="https://raw.githubusercontent.com/RetroPortingToolKit/Retro-Launcher/main/docs/screenshots/queue-and-background-build.png" alt="Background cmake build with titles queued" width="720">
+</p>
 
-- Disc 1
-- Disc 2
+Retro checks for updates, rebuilds with existing build data when possible,
+shares the portable toolchain used by per-title launchers, and automates
+BIOS/ROM/save plumbing so you are not stuck repeating each game’s wizard by hand.
+<!-- /retcomm-readme-launcher -->
 
-The setup process should validate and associate both discs with the same installation.
+## Legal
 
-## Framework
+You must own the original game. Disc images under `disc/` are gitignored and
+must never be committed. Retail BIOS dumps are not redistributed; OpenBIOS is
+used for Generate unless you supply your own SCPH locally.
 
-This project targets the current RetroPortingToolKit PSXRecomp layout:
+Default app icon: `assets/psxrecomp.ico` (and `.png` / `.svg`) — Retro-themed controller mark from `psxrecomp/assets/`. Windows builds embed it via `APP_ICON`.
 
-https://github.com/RetroPortingToolKit/psxrecomp
+Optional box art under `launcher_assets/img/` may come from
+[libretro-thumbnails](https://github.com/libretro-thumbnails/libretro-thumbnails)
+(`Named_Boxarts`); see `BOXART_SOURCE.txt` when present.
 
-The intended structure uses pinned root-level submodules:
+## Quick start (dev)
 
-- `psxrecomp/`
-- `recomp-ui/`
+```bash
+git submodule update --init --recursive
+./psxrecomp/tools/ci/build_emitters.sh
+python3 psxrecomp/psxrecomp_cli.py generate \
+  --config game.toml --project-root . --disc disc/<your>.cue
+cmake -S . -B build-release -G Ninja -DCMAKE_BUILD_TYPE=Release
+cmake --build build-release --target psx-runtime
+```
 
-## Project status
+Zip prefix for CI artifacts: `macrossdoyourememberlove`.
 
-Early development / bring-up.
+## Symbols
 
-The project should not be considered complete merely because it compiles. Runtime validation is required for both discs, including:
+Progressive map: `symbols.toml` → `python3 tools/sync_symbols.py` →
+`psx_symbols.h` (`PSX_FN_*`). See `psxrecomp/docs/SYMBOLS.md`.
 
-- boot
-- gameplay
-- controller input
-- audio / XA audio
-- FMV playback
-- memory-card save/load
-- Disc 1 / Disc 2 recognition
-- actual disc-transition behavior
+## Framework pins
 
-## Legal notice
+Submodule gitlinks (`psxrecomp`, optional `recomp-ui`, nested `recomp-net`)
+are authoritative. `framework_pins.txt` is an optional scaffold snapshot;
+release CI logs SHAs with `record_pins.sh` but builds whatever the gitlinks
+resolve to. Bump submodules deliberately — do not float on `main`/`master`
+in release CI.
 
-This is an independent fan/technical project. It is not affiliated with or endorsed by the rights holders of Macross, Sony, or the original game publishers/developers.
+<!-- retcomm-readme-raid -->
+---
 
-No copyrighted game content is supplied by this repository. Users are responsible for using legally obtained copies of the original game.
+<p align="center">
+  <sub><b>R.A.I.D. — Retro AI Development</b> · a Discord for AI-assisted retro reverse-engineering, decomp &amp; recomp</sub>
+</p>
+
+<p align="center">
+  <a href="https://discord.gg/Ad9BwSzctP"><img src=".github/raid-discord.png" alt="Join the Retro AI Development (R.A.I.D.) Discord" width="200"></a>
+</p>
+<!-- /retcomm-readme-raid -->
